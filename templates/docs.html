@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>API Cursos — Documentação</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=Outfit:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/docs.css') }}" />
+  </head>
+  <body>
+    <div class="page">
+      <aside class="sidebar">
+        <div class="brand">
+          <p class="brand-kicker">Flask JSON API</p>
+          <h1>API Cursos</h1>
+          <p class="brand-meta">v1.0 · dados em memória</p>
+        </div>
+
+        <nav class="toc" aria-label="Índice da documentação">
+          <p class="toc-label">Visão geral</p>
+          <a href="#intro">Introdução</a>
+          <a href="#modelos">Modelos</a>
+
+          <p class="toc-label">Rotas</p>
+          <a href="#status"><span class="method get">GET</span> /</a>
+          <a href="#cursos"><span class="method get">GET</span> /cursos</a>
+          <a href="#curso-id"><span class="method get">GET</span> /cursos/{id}</a>
+          <a href="#alunos"><span class="method get">GET</span> /alunos</a>
+          <a href="#aluno-id"><span class="method get">GET</span> /alunos/{id}</a>
+        </nav>
+      </aside>
+
+      <main>
+        <header class="hero" id="intro">
+          <p class="eyebrow">Documentação interativa</p>
+          <h2>Referência da API de cursos e alunos</h2>
+          <p class="lede">
+            Esta API foi feita para a atividade prática: rotas GET, respostas em JSON
+            com <code>jsonify</code> e dados guardados em listas Python. Não há banco
+            de dados. Use os blocos <strong>Experimentar</strong> para chamar as rotas
+            ao vivo neste servidor.
+          </p>
+          <dl class="meta-grid">
+            <div>
+              <dt>Base URL</dt>
+              <dd><code id="base-url"></code></dd>
+            </div>
+            <div>
+              <dt>Formato</dt>
+              <dd>JSON · UTF-8</dd>
+            </div>
+            <div>
+              <dt>Autenticação</dt>
+              <dd>Nenhuma</dd>
+            </div>
+            <div>
+              <dt>Persistência</dt>
+              <dd>Memória (reinicia com o servidor)</dd>
+            </div>
+          </dl>
+        </header>
+
+        <section class="card" id="modelos">
+          <h3>Modelos</h3>
+          <p class="section-copy">
+            Cada recurso é um dicionário Python serializado para JSON. Os campos abaixo
+            são os que a API devolve hoje.
+          </p>
+          <div class="schema-grid">
+            <article class="schema">
+              <h4>Curso</h4>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Campo</th>
+                    <th>Tipo</th>
+                    <th>Descrição</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>id</code></td>
+                    <td>integer</td>
+                    <td>Identificador único do curso</td>
+                  </tr>
+                  <tr>
+                    <td><code>nome</code></td>
+                    <td>string</td>
+                    <td>Nome do curso</td>
+                  </tr>
+                  <tr>
+                    <td><code>carga_horaria</code></td>
+                    <td>integer</td>
+                    <td>Carga horária em horas</td>
+                  </tr>
+                </tbody>
+              </table>
+            </article>
+            <article class="schema">
+              <h4>Aluno</h4>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Campo</th>
+                    <th>Tipo</th>
+                    <th>Descrição</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>id</code></td>
+                    <td>integer</td>
+                    <td>Identificador único do aluno</td>
+                  </tr>
+                  <tr>
+                    <td><code>nome</code></td>
+                    <td>string</td>
+                    <td>Nome completo</td>
+                  </tr>
+                  <tr>
+                    <td><code>turma</code></td>
+                    <td>string</td>
+                    <td>Turma (ex.: 3A)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </article>
+          </div>
+        </section>
+
+        <section class="endpoint" id="status" data-method="GET" data-path="/">
+          <header class="endpoint-head">
+            <span class="method get">GET</span>
+            <code class="path">/</code>
+            <span class="tag">status</span>
+          </header>
+          <p>
+            Health check pedido no enunciado. Confirma que o servidor Flask está
+            respondendo. Sempre retorna o mesmo JSON.
+          </p>
+          <h4>Resposta 200</h4>
+          <pre class="example"><code>{
+  "mensagem": "API funcionando!"
+}</code></pre>
+          <div class="try">
+            <button type="button" class="btn-try" data-try>Experimentar</button>
+            <div class="try-result" hidden></div>
+          </div>
+        </section>
+
+        <section class="endpoint" id="cursos" data-method="GET" data-path="/cursos">
+          <header class="endpoint-head">
+            <span class="method get">GET</span>
+            <code class="path">/cursos</code>
+            <span class="tag">cursos</span>
+          </header>
+          <p>
+            Devolve a lista completa de cursos cadastrados na memória. IDs atuais:
+            1, 2 e 3.
+          </p>
+          <h4>Resposta 200</h4>
+          <pre class="example"><code>[
+  {"id": 1, "nome": "Python Básico", "carga_horaria": 40},
+  {"id": 2, "nome": "Desenvolvimento Web", "carga_horaria": 60},
+  {"id": 3, "nome": "Banco de Dados", "carga_horaria": 40}
+]</code></pre>
+          <div class="try">
+            <button type="button" class="btn-try" data-try>Experimentar</button>
+            <div class="try-result" hidden></div>
+          </div>
+        </section>
+
+        <section
+          class="endpoint"
+          id="curso-id"
+          data-method="GET"
+          data-path="/cursos/{id}"
+          data-param="id"
+        >
+          <header class="endpoint-head">
+            <span class="method get">GET</span>
+            <code class="path">/cursos/&lt;int:id_curso&gt;</code>
+            <span class="tag">cursos</span>
+          </header>
+          <p>
+            Busca um curso pelo identificador numérico da URL. Se o id não existir
+            na lista, a API responde 404 com uma mensagem clara.
+          </p>
+          <h4>Parâmetro de caminho</h4>
+          <table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Tipo</th>
+                <th>Obrigatório</th>
+                <th>Descrição</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>id_curso</code></td>
+                <td>integer</td>
+                <td>sim</td>
+                <td>ID do curso. Exemplos válidos: 1, 2, 3.</td>
+              </tr>
+            </tbody>
+          </table>
+          <h4>Resposta 200</h4>
+          <pre class="example"><code>{
+  "id": 1,
+  "nome": "Python Básico",
+  "carga_horaria": 40
+}</code></pre>
+          <h4>Resposta 404</h4>
+          <pre class="example"><code>{
+  "erro": "Curso não encontrado"
+}</code></pre>
+          <div class="try">
+            <label>
+              id
+              <input type="number" name="id" value="1" min="1" />
+            </label>
+            <button type="button" class="btn-try" data-try>Experimentar</button>
+            <div class="try-result" hidden></div>
+          </div>
+        </section>
+
+        <section class="endpoint" id="alunos" data-method="GET" data-path="/alunos">
+          <header class="endpoint-head">
+            <span class="method get">GET</span>
+            <code class="path">/alunos</code>
+            <span class="tag">desafio</span>
+          </header>
+          <p>
+            Lista os alunos cadastrados. Cada item tem <code>id</code>,
+            <code>nome</code> e <code>turma</code>. Há pelo menos três registros.
+          </p>
+          <h4>Resposta 200</h4>
+          <pre class="example"><code>[
+  {"id": 1, "nome": "Ana Souza", "turma": "3A"},
+  {"id": 2, "nome": "Bruno Lima", "turma": "3B"},
+  {"id": 3, "nome": "Carla Mendes", "turma": "3A"},
+  {"id": 4, "nome": "Diego Alves", "turma": "3C"}
+]</code></pre>
+          <div class="try">
+            <button type="button" class="btn-try" data-try>Experimentar</button>
+            <div class="try-result" hidden></div>
+          </div>
+        </section>
+
+        <section
+          class="endpoint"
+          id="aluno-id"
+          data-method="GET"
+          data-path="/alunos/{id}"
+          data-param="id"
+        >
+          <header class="endpoint-head">
+            <span class="method get">GET</span>
+            <code class="path">/alunos/&lt;int:id_aluno&gt;</code>
+            <span class="tag">desafio</span>
+          </header>
+          <p>
+            Devolve um aluno específico. IDs válidos hoje: 1 a 4. Qualquer outro
+            número gera 404.
+          </p>
+          <h4>Parâmetro de caminho</h4>
+          <table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Tipo</th>
+                <th>Obrigatório</th>
+                <th>Descrição</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>id_aluno</code></td>
+                <td>integer</td>
+                <td>sim</td>
+                <td>ID do aluno na lista em memória.</td>
+              </tr>
+            </tbody>
+          </table>
+          <h4>Resposta 200</h4>
+          <pre class="example"><code>{
+  "id": 2,
+  "nome": "Bruno Lima",
+  "turma": "3B"
+}</code></pre>
+          <h4>Resposta 404</h4>
+          <pre class="example"><code>{
+  "erro": "Aluno não encontrado"
+}</code></pre>
+          <div class="try">
+            <label>
+              id
+              <input type="number" name="id" value="1" min="1" />
+            </label>
+            <button type="button" class="btn-try" data-try>Experimentar</button>
+            <div class="try-result" hidden></div>
+          </div>
+        </section>
+
+        <footer class="foot">
+          <p>
+            GET / continua sendo o JSON de status. Esta página em /docs é só a
+            documentação. Prints de entrega ficam a cargo do aluno.
+          </p>
+        </footer>
+      </main>
+    </div>
+    <script src="{{ url_for('static', filename='js/docs.js') }}"></script>
+  </body>
+</html>
